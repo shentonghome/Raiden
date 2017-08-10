@@ -1,9 +1,9 @@
 package core.factory;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import core.config.SoundPath;
@@ -20,13 +20,14 @@ public class SoundFactory {
 		for (Field field : fields) {
 			try {
 				Object o = field.get(sp);
-				URL url = SoundFactory.class.getClassLoader().getResource(o.toString());
-				String paths[] = url.getPath().split("/");
-				paths = Arrays.copyOf(paths, paths.length - 3);
-				String path = (String.join("/", paths) + "/" + o.toString()).replace("file:", "");
+//				URL url = SoundFactory.class.getClassLoader().getResource(o.toString());
+//				String paths[] = url.getPath().split("/");
+//				paths = Arrays.copyOf(paths, paths.length - 3);
+//				String path = (String.join("/", paths) + "/" + o.toString()).replace("file:", "");
+				URL path = SoundFactory.class.getResource(o.toString());
 				System.out.println("path: " + path);
 				sounds.put(field.getName(),
-						new File(path));
+						new File(path.getPath()));
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
